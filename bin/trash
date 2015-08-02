@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -o nounset
+
+if [[ $# == 0 || $1 == -* ]]; then
+  printf "Usage:\n\ttrash <file>\n"
+  exit 0
+fi
+
+# Check if file exists.
+if [[ ! -f "$1" && ! -d "$1" ]]; then
+  printf "Location '$1' does not exist.\n"
+  exit 1
+fi
+
+FILE=$(cd $(dirname "$1"); pwd)/$(basename "$1")
+
+mv $1 ~/.Trash/

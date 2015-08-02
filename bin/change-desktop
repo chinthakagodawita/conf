@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -o nounset
+
+if [[ $# == 0 || $1 == -* ]]; then
+  printf "Usage:\n\tchange-desktop [path-to-wallpaper]\n"
+  exit 0
+fi
+
+# Check if file exists.
+if [[ ! -f $1 ]]; then
+  printf "File '$1' does not exist.\n"
+  exit 1
+fi
+
+FILE=$(cd $(dirname "$1"); pwd)/$(basename "$1")
+
+if [[ "$FILE" != *jpg && "$FILE" != *jpeg && "$FILE" != *png ]]; then
+  echo "'$FILE' does not appear to be a valid image."
+  exit 1
+fi
+
+printf "Changing desktop wallpapers across all spaces to:\n\t$FILE\n"
+
+/usr/bin/sqlite3 /Users/$USER/Library/Application\ Support/Dock/desktoppicture.db "UPDATE data SET value = '$FILE'"
+/usr/bin/killall Dock
+
+printf "Done.\n"
