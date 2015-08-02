@@ -2,16 +2,24 @@
 set -o nounset
 
 if [[ $# == 0 || $1 == -* ]]; then
-  printf "Usage:\n\ttrash <file>\n"
+  printf "Usage:\n\ttrash <file> [<file>..]\n"
   exit 0
 fi
 
-# Check if file exists.
-if [[ ! -f "$1" && ! -d "$1" ]]; then
-  printf "Location '$1' does not exist.\n"
-  exit 1
-fi
+for loc in "$@"; do
+  # Check if location exists.
+  if [[ ! -f "$loc" && ! -d "$loc" ]]; then
+    printf "Location '$loc' does not exist.\n"
+    continue;
+  fi
 
-FILE=$(cd $(dirname "$1"); pwd)/$(basename "$1")
+  ABS_LOC=$(cd $(dirname "$loc"); pwd)/$(basename "$loc")
 
-mv $1 ~/.Trash/
+  error=$(mv "$ABS_LOC" "$HOME/.Trash/" 2>&1)
+  if [[ $? -ne 0 ]]; then
+    echo "Could not trash '$ABS_LOC'."
+    echo -e "\t$error"
+  else
+    echo "Trashed '$ABS_LOC'."
+  fi
+done
