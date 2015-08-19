@@ -1,0 +1,40 @@
+[color]
+  branch = auto
+  diff = auto
+  status = auto
+[user]
+  signingkey = 7233DF3F
+  name = Chinthaka Godawita
+  email = chin@sitback.com.au
+[core]
+  excludesfile = /Users/chin/.gitignore_global
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[alias]
+  lol = log --pretty=oneline --abbrev-commit --graph --decorate
+  map = log --graph --decorate --all --oneline --abbrev-commit
+  unstage = reset HEAD --
+  uncommit = reset --soft HEAD~1
+  diff-last = diff HEAD^ HEAD
+  chekcout = checkout
+  s = status
+  c = checkout
+  cd = checkout develop
+  cm = checkout master
+  fa = fetch --all
+  dw = diff -w
+  mf = merge --no-ff
+[rerere]
+  enabled = true
+[credential]
+  helper = osxkeychain
+[push]
+  default = simple
+[commit]
+  gpgsign = true
+[init]
+	templatedir = ~/.git_template
