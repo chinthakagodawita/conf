@@ -6,6 +6,36 @@ if [[ $# == 0 || $1 == -* ]]; then
   exit 0
 fi
 
+smart_mv () {
+  local i=0
+  local loc=$1
+  local abs_loc=$(cd $(dirname "$loc"); pwd)/$(basename "$loc")
+  local base_loc="$HOME/.Trash/$loc"
+  local new_loc="$base_loc"
+
+  if [[ -f "$new_loc" ]]; then
+    while [[ -f "$new_loc" ]]; do
+      new_loc="$base_loc-$i"
+      i=$((i + 1))
+    done
+  fi
+
+  if [[ -d "$new_loc" ]]; then
+    while [[ -d "$new_loc" ]]; do
+      new_loc="$base_loc-$i"
+      i=$((i + 1))
+    done
+  fi
+
+  error=$(mv "$abs_loc" "$new_loc" 2>&1)
+  if [[ $? -ne 0 ]]; then
+    echo "Could not trash '$abs_loc'."
+    echo -e "\t$error"
+  else
+    echo "Trashed '$abs_loc' (to '$new_loc')."
+  fi
+}
+
 for loc in "$@"; do
   # Check if location exists.
   if [[ ! -f "$loc" && ! -d "$loc" ]]; then
@@ -13,13 +43,5 @@ for loc in "$@"; do
     continue;
   fi
 
-  ABS_LOC=$(cd $(dirname "$loc"); pwd)/$(basename "$loc")
-
-  error=$(mv "$ABS_LOC" "$HOME/.Trash/" 2>&1)
-  if [[ $? -ne 0 ]]; then
-    echo "Could not trash '$ABS_LOC'."
-    echo -e "\t$error"
-  else
-    echo "Trashed '$ABS_LOC'."
-  fi
+  smart_mv $loc
 done
