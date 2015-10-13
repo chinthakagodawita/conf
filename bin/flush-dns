@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -o nounset
+
+sudo killall -HUP mDNSResponder
+
+if [[ $? -ne 0 ]]; then
+  echo "Error clearing the DNS cache"
+else
+  echo "Successfully cleared the DNS cache"
+fi
