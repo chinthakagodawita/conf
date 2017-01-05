@@ -2,6 +2,7 @@
 
 set -o nounset
 
+sudo dscacheutil -flushcache
 sudo killall -HUP mDNSResponder
 
 if [[ $? -ne 0 ]]; then
