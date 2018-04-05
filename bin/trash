@@ -9,8 +9,9 @@ fi
 smart_mv () {
   local i=0
   local loc=$1
-  local abs_loc=$(cd $(dirname "$loc"); pwd)/$(basename "$loc")
-  local base_loc="$HOME/.Trash/$loc"
+  local filename=$(basename "$loc")
+  local abs_loc=$(cd $(dirname "$loc"); pwd)/$filename
+  local base_loc="$HOME/.Trash/$filename"
   local new_loc="$base_loc"
 
   if [[ -f "$new_loc" ]]; then
