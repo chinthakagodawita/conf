@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+read -p "Enter db host: " PGHOST
+export PGHOST
+read -p "Enter database name: " PGDATABASE
+export PGDATABASE
+read -p "Enter db user: " PGUSER
+export PGUSER
+read -s -p "Enter db pass: " PGPASSWORD
+export PGPASSWORD
+
+psql
