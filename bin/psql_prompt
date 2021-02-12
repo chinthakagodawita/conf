@@ -2,6 +2,8 @@
 
 read -p "Enter db host: " PGHOST
 export PGHOST
+read -p "Enter db port: " PGPORT
+export PGPORT
 read -p "Enter database name: " PGDATABASE
 export PGDATABASE
 read -p "Enter db user: " PGUSER
