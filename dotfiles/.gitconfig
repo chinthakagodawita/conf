@@ -3,17 +3,7 @@
   diff = auto
   status = auto
 [user]
-  signingkey = 7233DF3F
-  name = Chinthaka Godawita
-  email = chin@sitback.com.au
-[core]
-  excludesfile = /Users/chin/.gitignore_global
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
+  name = Chin Godawita
 [alias]
   lol = log --pretty=oneline --abbrev-commit --graph --decorate
   map = log --graph --decorate --all --oneline --abbrev-commit
@@ -21,13 +11,28 @@
   uncommit = reset --soft HEAD~1
   diff-last = diff HEAD^ HEAD
   chekcout = checkout
+  branch-local-cleanup = "!git branch --merged | grep  -v '\\*\\|master\\|develop' | xargs -n 1 git branch -d"
+  branch-remote-cleanup = "!git branch -r --merged | grep -v master | sed 's/origin\\///' | xargs -n 1 git push --delete origin"
   s = status
   c = checkout
   cd = checkout develop
   cm = checkout master
+  cs = checkout staging
+  cv = commit --verbose
   fa = fetch --all
   dw = diff -w
   mf = merge --no-ff
+  pl = pull
+  p = push
+  pt = push --tags
+  po = "!git push --set-upstream origin \"$(git rev-parse --abbrev-ref HEAD)\""
+  branch-del = "!f() { \
+    git branch -d $1; \
+    git push origin :${1}; \
+  }; f"
+  sync = "!f() { \
+    git fetch origin $1:$1; \
+  }; f"
 [rerere]
   enabled = true
 [credential]
@@ -36,5 +41,5 @@
   default = simple
 [commit]
   gpgsign = true
-[init]
-	templatedir = ~/.git_template
+[diff]
+  compactionHeuristic = true
